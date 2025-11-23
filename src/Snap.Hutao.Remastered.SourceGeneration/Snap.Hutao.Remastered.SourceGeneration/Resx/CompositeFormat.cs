@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace Snap.Hutao.SourceGeneration.Resx;
+namespace Snap.Hutao.Remastered.SourceGeneration.Resx;
 
 /// <summary>Represents a parsed composite format string.</summary>
 [DebuggerDisplay("{Format}")]
@@ -45,7 +45,7 @@ public sealed class CompositeFormat
         int literalLength = 0, formattedCount = 0, argsRequired = 0;
         foreach ((string? Literal, int ArgIndex, int Alignment, string? Format) segment in segments)
         {
-            Debug.Assert((segment.Literal is not null) ^ (segment.ArgIndex >= 0), "The segment should represent a literal or a format hole, but not both.");
+            Debug.Assert(segment.Literal is not null ^ segment.ArgIndex >= 0, "The segment should represent a literal or a format hole, but not both.");
 
             if (segment.Literal is { } literal)
             {
@@ -218,7 +218,7 @@ public sealed class CompositeFormat
             if (ch != '}')
             {
                 // Continue consuming optional additional digits.
-                while ((uint)(ch - '0') <= ('9' - '0'))
+                while ((uint)(ch - '0') <= '9' - '0')
                 {
                     index = index * 10 + ch - '0';
                     if (!TryMoveNext(format, ref pos, out ch))
@@ -275,7 +275,7 @@ public sealed class CompositeFormat
                     {
                         return false;
                     }
-                    while ((uint)(ch - '0') <= ('9' - '0'))
+                    while ((uint)(ch - '0') <= '9' - '0')
                     {
                         width = width * 10 + ch - '0';
                         if (!TryMoveNext(format, ref pos, out ch))

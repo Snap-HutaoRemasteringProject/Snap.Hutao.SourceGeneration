@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 using Microsoft.CodeAnalysis;
-using Snap.Hutao.SourceGeneration.Model;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
+using Snap.Hutao.Remastered.SourceGeneration.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace Snap.Hutao.SourceGeneration.Extension;
+namespace Snap.Hutao.Remastered.SourceGeneration.Extension;
 
 internal static class IncrementalValuesProviderExtension
 {

@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Snap.Hutao.SourceGeneration.Primitive.FastSyntaxFactory;
 
-namespace Snap.Hutao.SourceGeneration.Extension;
+namespace Snap.Hutao.Remastered.SourceGeneration.Extension;
 
 internal static class AccessibilityExtension
 {
@@ -26,6 +26,6 @@ internal static class AccessibilityExtension
 
     public static SyntaxTokenList ToSyntaxTokenList(this Accessibility accessibility, SyntaxToken additionalToken)
     {
-        return ToSyntaxTokenList(accessibility).Add(additionalToken);
+        return accessibility.ToSyntaxTokenList().Add(additionalToken);
     }
 }

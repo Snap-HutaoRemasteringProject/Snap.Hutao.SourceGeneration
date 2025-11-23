@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using static Snap.Hutao.SourceGeneration.Primitive.SyntaxKeywords;
+using static Snap.Hutao.Remastered.SourceGeneration.Primitive.SyntaxKeywords;
 
 namespace Snap.Hutao.SourceGeneration.Primitive;
 

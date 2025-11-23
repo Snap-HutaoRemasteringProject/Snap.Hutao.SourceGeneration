@@ -9,7 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Snap.Hutao.SourceGeneration.Model;
+namespace Snap.Hutao.Remastered.SourceGeneration.Model;
 
 internal readonly struct EquatableArray<T> : IEquatable<EquatableArray<T>>, IEnumerable<T>
     where T : IEquatable<T>
@@ -69,7 +69,7 @@ internal readonly struct EquatableArray<T> : IEquatable<EquatableArray<T>>, IEnu
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ImmutableArray<T> AsImmutableArray()
     {
-        return Unsafe.As<T[]?, ImmutableArray<T>>(ref Unsafe.AsRef(in this.array));
+        return Unsafe.As<T[]?, ImmutableArray<T>>(ref Unsafe.AsRef(in array));
     }
 
     public static EquatableArray<T> FromImmutableArray(ImmutableArray<T> array)
@@ -102,7 +102,7 @@ internal readonly struct EquatableArray<T> : IEquatable<EquatableArray<T>>, IEnu
         return ((IEnumerable)AsImmutableArray()).GetEnumerator();
     }
 
-    public ImmutableArray<TResult> SelectAsArray<TResult>(Func<T,TResult> selector)
+    public ImmutableArray<TResult> SelectAsArray<TResult>(Func<T, TResult> selector)
     {
         return ImmutableArray.CreateRange(AsImmutableArray(), selector);
     }

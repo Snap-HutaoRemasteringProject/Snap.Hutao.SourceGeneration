@@ -3,14 +3,14 @@
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Snap.Hutao.SourceGeneration.Extension;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Snap.Hutao.SourceGeneration.Model;
+namespace Snap.Hutao.Remastered.SourceGeneration.Model;
 
 internal sealed record AttributeInfo
 {

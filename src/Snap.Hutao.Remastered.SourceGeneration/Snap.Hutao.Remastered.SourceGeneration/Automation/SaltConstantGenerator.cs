@@ -4,7 +4,7 @@
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Snap.Hutao.SourceGeneration.Extension;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
 using System;
 using System.Net.Http;
 using System.Text.Json;
@@ -12,7 +12,7 @@ using System.Text.Json.Serialization;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Snap.Hutao.SourceGeneration.Primitive.FastSyntaxFactory;
 
-namespace Snap.Hutao.SourceGeneration.Automation;
+namespace Snap.Hutao.Remastered.SourceGeneration.Automation;
 
 [Generator(LanguageNames.CSharp)]
 internal sealed class SaltConstantGenerator : IIncrementalGenerator

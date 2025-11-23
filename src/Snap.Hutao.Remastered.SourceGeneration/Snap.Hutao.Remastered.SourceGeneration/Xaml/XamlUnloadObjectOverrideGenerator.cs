@@ -1,14 +1,14 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Snap.Hutao.SourceGeneration.Extension;
-using Snap.Hutao.SourceGeneration.Model;
-using Snap.Hutao.SourceGeneration.Primitive;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
+using Snap.Hutao.Remastered.SourceGeneration.Model;
+using Snap.Hutao.Remastered.SourceGeneration.Primitive;
 using System;
 using System.Threading;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Snap.Hutao.SourceGeneration.Primitive.FastSyntaxFactory;
 
-namespace Snap.Hutao.SourceGeneration.Xaml;
+namespace Snap.Hutao.Remastered.SourceGeneration.Xaml;
 
 [Generator]
 internal class XamlUnloadObjectOverrideGenerator : IIncrementalGenerator

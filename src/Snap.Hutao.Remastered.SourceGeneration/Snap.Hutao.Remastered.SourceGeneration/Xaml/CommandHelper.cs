@@ -4,10 +4,11 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Snap.Hutao.SourceGeneration.Model;
+using Snap.Hutao.Remastered.SourceGeneration;
+using Snap.Hutao.Remastered.SourceGeneration.Model;
 using System.Collections.Immutable;
 
-namespace Snap.Hutao.SourceGeneration.Xaml;
+namespace Snap.Hutao.Remastered.SourceGeneration.Xaml;
 
 internal static class CommandHelper
 {

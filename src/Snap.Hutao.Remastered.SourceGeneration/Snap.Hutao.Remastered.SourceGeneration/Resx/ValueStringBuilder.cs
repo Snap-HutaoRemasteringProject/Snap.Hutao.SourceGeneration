@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Snap.Hutao.SourceGeneration.Resx;
+namespace Snap.Hutao.Remastered.SourceGeneration.Resx;
 
 // Ported System.Text.ValueStringBuilder from dotnet/runtime
 // Licensed to the .NET Foundation under one or more agreements.
@@ -155,7 +155,7 @@ internal ref struct ValueStringBuilder
 
         int count = s.Length;
 
-        if (pos > (chars.Length - count))
+        if (pos > chars.Length - count)
         {
             Grow(count);
         }

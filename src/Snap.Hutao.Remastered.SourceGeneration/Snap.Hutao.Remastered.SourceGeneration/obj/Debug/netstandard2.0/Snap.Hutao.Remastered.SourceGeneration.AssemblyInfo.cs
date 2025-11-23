@@ -14,11 +14,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SnapHutaoRemasteringProject")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Source Code generator for Snap.Hutao.Remastered")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.3.9.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.3.9+b3952c9fc3f4a4a08f312aa39e00774be6387cab")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.3.10.8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.3.10.8+8d4255d72b40d33b9520781823d12cd64a4dc28f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Snap.Hutao.Remastered.SourceGeneration")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Snap.Hutao.Remastered.SourceGeneration")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.3.9.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.3.10.8")]
 [assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/SnapHutaoRemasteringProject/Snap.Hutao.Remastered.SourceGenera" +
     "tion")]
 

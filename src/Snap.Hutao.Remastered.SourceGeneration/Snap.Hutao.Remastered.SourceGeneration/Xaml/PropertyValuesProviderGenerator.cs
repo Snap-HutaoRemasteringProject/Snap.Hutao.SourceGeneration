@@ -3,9 +3,9 @@
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Snap.Hutao.SourceGeneration.Extension;
-using Snap.Hutao.SourceGeneration.Model;
-using Snap.Hutao.SourceGeneration.Primitive;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
+using Snap.Hutao.Remastered.SourceGeneration.Model;
+using Snap.Hutao.Remastered.SourceGeneration.Primitive;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -14,12 +14,12 @@ using System.Threading;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Snap.Hutao.SourceGeneration.Primitive.FastSyntaxFactory;
 
-namespace Snap.Hutao.SourceGeneration.Xaml;
+namespace Snap.Hutao.Remastered.SourceGeneration.Xaml;
 
 [Generator(LanguageNames.CSharp)]
 internal sealed class PropertyValuesProviderGenerator : IIncrementalGenerator
 {
-    public const string InterfaceMetadataName = "Snap.Hutao.UI.Xaml.Data.IPropertyValuesProvider";
+    public const string InterfaceMetadataName = "Snap.Hutao.Remastered.UI.Xaml.Data.IPropertyValuesProvider";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {

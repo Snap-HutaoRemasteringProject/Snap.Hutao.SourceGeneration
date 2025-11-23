@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 using Microsoft.CodeAnalysis;
-using Snap.Hutao.SourceGeneration.Primitive;
+using Snap.Hutao.Remastered.SourceGeneration.Primitive;
 using System;
 using System.Linq;
 
-namespace Snap.Hutao.SourceGeneration.Extension;
+namespace Snap.Hutao.Remastered.SourceGeneration.Extension;
 
 internal static class TypeSymbolExtension
 {
@@ -126,7 +126,7 @@ internal static class TypeSymbolExtension
     {
         if (typeSymbol.BaseType is { } baseTypeSymbol)
         {
-            return HasOrInheritsAttributeWithFullyQualifiedMetadataName(baseTypeSymbol, name);
+            return baseTypeSymbol.HasOrInheritsAttributeWithFullyQualifiedMetadataName(name);
         }
 
         return false;

@@ -3,7 +3,7 @@
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Snap.Hutao.SourceGeneration.Extension;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -12,9 +12,9 @@ using System.Text.Json;
 using System.Threading;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Snap.Hutao.SourceGeneration.Primitive.FastSyntaxFactory;
-using static Snap.Hutao.SourceGeneration.WellKnownSyntax;
+using static Snap.Hutao.Remastered.SourceGeneration.WellKnownSyntax;
 
-namespace Snap.Hutao.SourceGeneration.Identity;
+namespace Snap.Hutao.Remastered.SourceGeneration.Identity;
 
 [Generator(LanguageNames.CSharp)]
 internal sealed class IdentityGenerator : IIncrementalGenerator
@@ -361,7 +361,7 @@ internal sealed class IdentityGenerator : IIncrementalGenerator
     private static TypeSyntax GenerateGenericType(NameSyntax left, string genericName, TypeSyntax type1, TypeSyntax type2, TypeSyntax type3)
     {
         return QualifiedName(left, GenericName(genericName)
-            .WithTypeArgumentList(TypeArgumentList(SeparatedList<TypeSyntax>([type1, type2, type3]))));
+            .WithTypeArgumentList(TypeArgumentList(SeparatedList([type1, type2, type3]))));
     }
 
     private sealed record IdentityStructMetadata

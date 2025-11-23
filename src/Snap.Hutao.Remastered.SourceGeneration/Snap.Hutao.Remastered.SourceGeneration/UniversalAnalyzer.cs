@@ -5,10 +5,10 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Snap.Hutao.SourceGeneration.Extension;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
 using System.Collections.Immutable;
 
-namespace Snap.Hutao.SourceGeneration;
+namespace Snap.Hutao.Remastered.SourceGeneration;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 internal sealed class UniversalAnalyzer : DiagnosticAnalyzer

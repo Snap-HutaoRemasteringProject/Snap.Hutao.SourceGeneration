@@ -4,14 +4,14 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Snap.Hutao.SourceGeneration.Extension;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
 using System;
 using System.Collections.Immutable;
 using System.Globalization;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Snap.Hutao.SourceGeneration.Primitive.FastSyntaxFactory;
 
-namespace Snap.Hutao.SourceGeneration.Model;
+namespace Snap.Hutao.Remastered.SourceGeneration.Model;
 
 internal abstract record TypedConstantInfo
 {

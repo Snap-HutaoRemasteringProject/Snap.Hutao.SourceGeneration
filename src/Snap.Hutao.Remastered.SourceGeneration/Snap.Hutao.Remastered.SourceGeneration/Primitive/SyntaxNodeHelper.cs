@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Threading;
 
-namespace Snap.Hutao.SourceGeneration.Primitive;
+namespace Snap.Hutao.Remastered.SourceGeneration.Primitive;
 
 internal static class SyntaxNodeHelper
 {

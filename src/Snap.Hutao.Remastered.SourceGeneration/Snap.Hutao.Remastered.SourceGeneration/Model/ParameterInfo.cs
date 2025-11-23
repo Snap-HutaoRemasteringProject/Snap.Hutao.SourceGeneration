@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.CodeAnalysis;
-using Snap.Hutao.SourceGeneration.Extension;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
 
-namespace Snap.Hutao.SourceGeneration.Model;
+namespace Snap.Hutao.Remastered.SourceGeneration.Model;
 
 internal sealed record ParameterInfo
 {

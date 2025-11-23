@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 using Microsoft.CodeAnalysis;
-using Snap.Hutao.SourceGeneration.Primitive;
+using Snap.Hutao.Remastered.SourceGeneration.Primitive;
 using System.Collections.Frozen;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 
-namespace Snap.Hutao.SourceGeneration.Extension;
+namespace Snap.Hutao.Remastered.SourceGeneration.Extension;
 
 internal static class SymbolExtension
 {
@@ -66,7 +66,7 @@ internal static class SymbolExtension
 
     public static bool HasAttributeWithType(this ISymbol symbol, ITypeSymbol typeSymbol)
     {
-        return TryGetAttributeWithType(symbol, typeSymbol, out _);
+        return symbol.TryGetAttributeWithType(typeSymbol, out _);
     }
 
     public static bool TryGetAttributeWithType(this ISymbol symbol, ITypeSymbol typeSymbol, [NotNullWhen(true)] out AttributeData? attributeData)
@@ -108,7 +108,7 @@ internal static class SymbolExtension
         switch (symbol.Kind)
         {
             case SymbolKind.Alias: return Accessibility.Private;
-            case SymbolKind.Parameter: return GetEffectiveAccessibility(symbol.ContainingSymbol);
+            case SymbolKind.Parameter: return symbol.ContainingSymbol.GetEffectiveAccessibility();
             case SymbolKind.TypeParameter: return Accessibility.Private;
         }
 

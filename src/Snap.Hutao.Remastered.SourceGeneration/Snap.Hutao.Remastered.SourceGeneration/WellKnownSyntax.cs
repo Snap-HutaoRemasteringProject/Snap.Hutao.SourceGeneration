@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Snap.Hutao.SourceGeneration.Primitive.FastSyntaxFactory;
 
-namespace Snap.Hutao.SourceGeneration;
+namespace Snap.Hutao.Remastered.SourceGeneration;
 
 internal static class WellKnownSyntax
 {
@@ -21,7 +21,7 @@ internal static class WellKnownSyntax
     public static readonly NameSyntax NameOfCommunityToolkitMvvmInput = ParseName("global::CommunityToolkit.Mvvm.Input");
     public static readonly NameSyntax NameOfCommunityToolkitMvvmInputAsyncRelayCommandOptions = ParseName("global::CommunityToolkit.Mvvm.Input.AsyncRelayCommandOptions");
     public static readonly NameSyntax NameOfMicrosoftUIXaml = ParseName("global::Microsoft.UI.Xaml");
-    public static readonly NameSyntax NameOfSnapHutaoModelPrimitiveConverter = ParseName("global::Snap.Hutao.Model.Primitive.Converter");
+    public static readonly NameSyntax NameOfSnapHutaoModelPrimitiveConverter = ParseName("global::Snap.Hutao.Remastered.Model.Primitive.Converter");
     public static readonly NameSyntax NameOfSystem = ParseName("global::System");
     public static readonly NameSyntax NameOfSystemComponentModelEditorBrowsable = ParseName("global::System.ComponentModel.EditorBrowsable");
     public static readonly NameSyntax NameOfSystemComponentModelEditorBrowsableState = ParseName("global::System.ComponentModel.EditorBrowsableState");

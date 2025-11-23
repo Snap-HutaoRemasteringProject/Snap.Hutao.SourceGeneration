@@ -1,7 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.SourceGeneration.Model;
+
+// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Snap.Hutao.Remastered.SourceGeneration.Model;
 
 internal sealed record AttributedMethodInfo
 {

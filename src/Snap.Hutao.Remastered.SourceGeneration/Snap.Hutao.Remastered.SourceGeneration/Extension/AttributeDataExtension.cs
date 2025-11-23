@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Snap.Hutao.SourceGeneration.Extension;
+namespace Snap.Hutao.Remastered.SourceGeneration.Extension;
 
 internal static class AttributeDataExtension
 {

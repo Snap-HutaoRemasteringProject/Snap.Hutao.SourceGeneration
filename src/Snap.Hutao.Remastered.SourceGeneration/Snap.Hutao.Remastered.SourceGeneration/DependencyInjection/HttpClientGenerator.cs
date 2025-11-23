@@ -4,9 +4,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Snap.Hutao.SourceGeneration.Extension;
-using Snap.Hutao.SourceGeneration.Model;
-using Snap.Hutao.SourceGeneration.Primitive;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -14,10 +12,13 @@ using System.Linq;
 using System.Threading;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Snap.Hutao.SourceGeneration.Primitive.FastSyntaxFactory;
-using static Snap.Hutao.SourceGeneration.WellKnownSyntax;
-using TypeInfo = Snap.Hutao.SourceGeneration.Model.TypeInfo;
+using static Snap.Hutao.Remastered.SourceGeneration.WellKnownSyntax;
+using TypeInfo = Snap.Hutao.Remastered.SourceGeneration.Model.TypeInfo;
+using Snap.Hutao.Remastered.SourceGeneration;
+using Snap.Hutao.Remastered.SourceGeneration.Primitive;
+using Snap.Hutao.Remastered.SourceGeneration.Model;
 
-namespace Snap.Hutao.SourceGeneration.DependencyInjection;
+namespace Snap.Hutao.Remastered.SourceGeneration.DependencyInjection;
 
 [Generator(LanguageNames.CSharp)]
 internal sealed class HttpClientGenerator : IIncrementalGenerator
@@ -58,7 +59,7 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
                     ClassDeclaration("ServiceCollectionExtension")
                         .WithModifiers(InternalStaticPartialTokenList)
                         .WithMembers(SingletonList<MemberDeclarationSyntax>(
-                            MethodDeclaration(TypeOfMicrosoftExtensionsDependencyInjectionIServiceCollection,"AddHttpClients")
+                            MethodDeclaration(TypeOfMicrosoftExtensionsDependencyInjectionIServiceCollection, "AddHttpClients")
                                 .WithModifiers(PublicStaticPartialTokenList)
                                 .WithParameterList(ParameterList(SingletonSeparatedList(
                                     Parameter(TypeOfMicrosoftExtensionsDependencyInjectionIServiceCollection, Identifier("services"))

@@ -3,9 +3,7 @@
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Snap.Hutao.SourceGeneration.Extension;
-using Snap.Hutao.SourceGeneration.Model;
-using Snap.Hutao.SourceGeneration.Primitive;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -13,9 +11,11 @@ using System.Linq;
 using System.Threading;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Snap.Hutao.SourceGeneration.Primitive.FastSyntaxFactory;
-using static Snap.Hutao.SourceGeneration.WellKnownSyntax;
+using static Snap.Hutao.Remastered.SourceGeneration.WellKnownSyntax;
+using Snap.Hutao.Remastered.SourceGeneration.Primitive;
+using Snap.Hutao.Remastered.SourceGeneration.Model;
 
-namespace Snap.Hutao.SourceGeneration.Enum;
+namespace Snap.Hutao.Remastered.SourceGeneration.Enum;
 
 [Generator(LanguageNames.CSharp)]
 internal class ExtendedEnumGenerator : IIncrementalGenerator

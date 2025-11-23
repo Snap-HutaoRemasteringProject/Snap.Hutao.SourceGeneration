@@ -3,8 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
-using Snap.Hutao.SourceGeneration.Extension;
-using Snap.Hutao.SourceGeneration.Model;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -18,10 +17,11 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Snap.Hutao.SourceGeneration.Primitive.FastSyntaxFactory;
-using static Snap.Hutao.SourceGeneration.Primitive.SyntaxKeywords;
-using static Snap.Hutao.SourceGeneration.WellKnownSyntax;
+using static Snap.Hutao.Remastered.SourceGeneration.Primitive.SyntaxKeywords;
+using static Snap.Hutao.Remastered.SourceGeneration.WellKnownSyntax;
+using Snap.Hutao.Remastered.SourceGeneration.Model;
 
-namespace Snap.Hutao.SourceGeneration.Resx;
+namespace Snap.Hutao.Remastered.SourceGeneration.Resx;
 
 [Generator]
 public sealed class ResxGenerator2 : IIncrementalGenerator
@@ -451,7 +451,7 @@ public sealed class ResxGenerator2 : IIncrementalGenerator
             summary.Add(new XElement("para", entry.Comment));
         }
 
-        foreach((string locale, string? each) in entry.Values)
+        foreach ((string locale, string? each) in entry.Values)
         {
             summary.Add(new XElement("code", $"{locale,-8} Value: \"{each}\""));
         }

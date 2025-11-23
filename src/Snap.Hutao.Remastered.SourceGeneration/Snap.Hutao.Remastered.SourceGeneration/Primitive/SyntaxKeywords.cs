@@ -4,7 +4,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Snap.Hutao.SourceGeneration.Primitive;
+namespace Snap.Hutao.Remastered.SourceGeneration.Primitive;
 
 internal static class SyntaxKeywords
 {

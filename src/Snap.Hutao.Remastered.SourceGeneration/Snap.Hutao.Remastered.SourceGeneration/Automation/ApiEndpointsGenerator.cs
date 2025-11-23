@@ -3,8 +3,7 @@
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Snap.Hutao.SourceGeneration.Extension;
-using Snap.Hutao.SourceGeneration.Model;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -15,9 +14,11 @@ using System.Text.Json;
 using System.Threading;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Snap.Hutao.SourceGeneration.Primitive.FastSyntaxFactory;
-using static Snap.Hutao.SourceGeneration.Primitive.SyntaxKeywords;
+using static Snap.Hutao.Remastered.SourceGeneration.Primitive.SyntaxKeywords;
+using Snap.Hutao.Remastered.SourceGeneration;
+using Snap.Hutao.Remastered.SourceGeneration.Model;
 
-namespace Snap.Hutao.SourceGeneration.Automation;
+namespace Snap.Hutao.Remastered.SourceGeneration.Automation;
 
 [Generator(LanguageNames.CSharp)]
 internal sealed class ApiEndpointsGenerator : IIncrementalGenerator

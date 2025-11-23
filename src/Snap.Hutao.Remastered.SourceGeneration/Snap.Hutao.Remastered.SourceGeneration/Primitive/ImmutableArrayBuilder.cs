@@ -9,7 +9,7 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace Snap.Hutao.SourceGeneration.Primitive;
+namespace Snap.Hutao.Remastered.SourceGeneration.Primitive;
 
 internal ref struct ImmutableArrayBuilder<T> : IDisposable
 {
@@ -143,13 +143,13 @@ internal ref struct ImmutableArrayBuilder<T> : IDisposable
 
         void ICollection<T>.CopyTo(T[] array, int arrayIndex)
         {
-            Array.Copy(this.array!, 0, array, arrayIndex, this.index);
+            Array.Copy(this.array!, 0, array, arrayIndex, index);
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
             T?[] array = this.array!;
-            int length = this.index;
+            int length = index;
 
             for (int i = 0; i < length; i++)
             {

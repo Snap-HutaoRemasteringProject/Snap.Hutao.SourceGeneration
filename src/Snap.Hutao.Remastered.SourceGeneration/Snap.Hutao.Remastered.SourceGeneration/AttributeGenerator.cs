@@ -4,16 +4,16 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Snap.Hutao.SourceGeneration.Extension;
+using Snap.Hutao.Remastered.SourceGeneration.Extension;
 using Snap.Hutao.SourceGeneration.Primitive;
 using System.Runtime.CompilerServices;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Snap.Hutao.SourceGeneration.Primitive.FastSyntaxFactory;
-using static Snap.Hutao.SourceGeneration.WellKnownSyntax;
+using static Snap.Hutao.Remastered.SourceGeneration.WellKnownSyntax;
 
-[assembly:InternalsVisibleTo("Snap.Hutao.SourceGeneration.Test")]
+[assembly: InternalsVisibleTo("Snap.Hutao.SourceGeneration.Test")]
 
-namespace Snap.Hutao.SourceGeneration;
+namespace Snap.Hutao.Remastered.SourceGeneration;
 
 [Generator(LanguageNames.CSharp)]
 internal sealed class AttributeGenerator : IIncrementalGenerator
@@ -122,7 +122,7 @@ internal sealed class AttributeGenerator : IIncrementalGenerator
 
         context.AddSource("Snap.Hutao.Core.Annotation.Attributes.g.cs", coreAnnotation.ToFullStringWithHeader());
 
-        TypeSyntax typeOfHttpClientConfiguration = ParseTypeName("global::Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfiguration");
+        TypeSyntax typeOfHttpClientConfiguration = ParseTypeName("global::Snap.Hutao.Remastered.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfiguration");
 
         CompilationUnitSyntax coreDependencyInjectionAnnotationHttpClient = CompilationUnit()
             .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Remastered.Core.DependencyInjection.Annotation.HttpClient")
