@@ -80,7 +80,7 @@ public sealed class CompositeFormat
         }
 
         List<(string? Literal, int ArgIndex, int Alignment, string? Format)> segments = [];
-        if (!TryParseLiterals(format, segments))
+        if (!TryParseLiterals(format.AsSpan(), segments))
         {
             throw new FormatException();
         }
@@ -97,7 +97,7 @@ public sealed class CompositeFormat
         }
 
         List<(string? Literal, int ArgIndex, int Alignment, string? Format)> segments = [];
-        if (!TryParseLiterals(format, segments))
+        if (!TryParseLiterals(format.AsSpan(), segments))
         {
             compositeFormat = null;
             return false;

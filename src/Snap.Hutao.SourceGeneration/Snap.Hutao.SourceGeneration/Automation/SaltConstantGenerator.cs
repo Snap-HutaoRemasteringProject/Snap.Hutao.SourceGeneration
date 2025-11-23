@@ -37,7 +37,6 @@ internal sealed class SaltConstantGenerator : IIncrementalGenerator
         }
         catch (Exception ex)
         {
-            context.AddSource("Error.g.cs", ex.ToString());
             return;
         }
 
