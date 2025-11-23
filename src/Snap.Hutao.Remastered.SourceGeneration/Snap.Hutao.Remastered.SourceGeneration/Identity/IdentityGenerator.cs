@@ -71,7 +71,7 @@ internal sealed class IdentityGenerator : IIncrementalGenerator
         SyntaxToken typeToken = Identifier(metadataName);
 
         CompilationUnitSyntax syntax = CompilationUnit()
-            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Model.Primitive")
+            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Remastered.Model.Primitive")
                 .WithLeadingTrivia(NullableEnableTriviaList)
                 .WithMembers(SingletonList<MemberDeclarationSyntax>(
                     StructDeclaration(metadataName)

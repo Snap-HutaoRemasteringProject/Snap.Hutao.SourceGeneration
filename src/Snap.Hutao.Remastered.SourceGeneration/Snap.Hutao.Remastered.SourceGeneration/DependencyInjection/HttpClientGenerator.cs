@@ -52,7 +52,7 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
     {
         CompilationUnitSyntax syntax = CompilationUnit()
             .WithUsings(SingletonList(UsingDirective("System.Net.Http")))
-            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Core.DependencyInjection")
+            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Remastered.Core.DependencyInjection")
                 .WithLeadingTrivia(NullableEnableTriviaList)
                 .WithMembers(SingletonList<MemberDeclarationSyntax>(
                     ClassDeclaration("ServiceCollectionExtension")

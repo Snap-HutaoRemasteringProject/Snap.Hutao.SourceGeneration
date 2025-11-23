@@ -41,7 +41,7 @@ internal sealed class SaltConstantGenerator : IIncrementalGenerator
         }
 
         CompilationUnitSyntax syntax = CompilationUnit()
-            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Web.Hoyolab")
+            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Remastered.Web.Hoyolab")
                 .WithLeadingTrivia(NullableEnableTriviaList)
                 .WithMembers(SingletonList<MemberDeclarationSyntax>(
                     ClassDeclaration("SaltConstants")

@@ -26,7 +26,7 @@ internal sealed class AttributeGenerator : IIncrementalGenerator
     public static void GenerateAllAttributes(IncrementalGeneratorPostInitializationContext context)
     {
         CompilationUnitSyntax coreAnnotation = CompilationUnit()
-            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Core.Annotation")
+            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Remastered.Core.Annotation")
                 .WithLeadingTrivia(NullableEnableTriviaList)
                 .WithMembers(List<MemberDeclarationSyntax>(
                 [
@@ -125,7 +125,7 @@ internal sealed class AttributeGenerator : IIncrementalGenerator
         TypeSyntax typeOfHttpClientConfiguration = ParseTypeName("global::Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfiguration");
 
         CompilationUnitSyntax coreDependencyInjectionAnnotationHttpClient = CompilationUnit()
-            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient")
+            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Remastered.Core.DependencyInjection.Annotation.HttpClient")
                 .WithLeadingTrivia(NullableEnableTriviaList)
                 .WithMembers(List<MemberDeclarationSyntax>(
                 [
@@ -214,7 +214,7 @@ internal sealed class AttributeGenerator : IIncrementalGenerator
         context.AddSource("Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.Attributes.g.cs", coreDependencyInjectionAnnotationHttpClient.ToFullStringWithHeader());
 
         CompilationUnitSyntax coreDependencyInjectionAnnotation = CompilationUnit()
-            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Core.DependencyInjection.Annotation")
+            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Remastered.Core.DependencyInjection.Annotation")
                 .WithLeadingTrivia(NullableEnableTriviaList)
                 .WithMembers(List<MemberDeclarationSyntax>(
                 [
@@ -256,7 +256,7 @@ internal sealed class AttributeGenerator : IIncrementalGenerator
         context.AddSource("Snap.Hutao.Core.DependencyInjection.Annotation.Attributes.g.cs", coreDependencyInjectionAnnotation.ToFullStringWithHeader());
 
         CompilationUnitSyntax resourceLocalization = CompilationUnit()
-            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Resource.Localization")
+            .WithMembers(SingletonList<MemberDeclarationSyntax>(FileScopedNamespaceDeclaration("Snap.Hutao.Remastered.Resource.Localization")
                 .WithLeadingTrivia(NullableEnableTriviaList)
                 .WithMembers(List<MemberDeclarationSyntax>(
                 [
