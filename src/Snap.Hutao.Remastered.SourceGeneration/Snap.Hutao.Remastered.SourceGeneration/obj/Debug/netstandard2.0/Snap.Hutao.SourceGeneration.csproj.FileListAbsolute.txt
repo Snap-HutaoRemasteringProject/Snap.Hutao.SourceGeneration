@@ -1,6 +1,0 @@
-C:\Users\13063\source\repos\Snap.Hutao.SourceGeneration\src\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration\obj\Debug\netstandard2.0\Snap.Hutao.SourceGeneration.csproj.AssemblyReference.cache
-C:\Users\13063\source\repos\Snap.Hutao.SourceGeneration\src\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration\obj\Debug\netstandard2.0\Snap.Hutao.SourceGeneration.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\13063\source\repos\Snap.Hutao.SourceGeneration\src\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration\obj\Debug\netstandard2.0\Snap.Hutao.SourceGeneration.AssemblyInfoInputs.cache
-C:\Users\13063\source\repos\Snap.Hutao.SourceGeneration\src\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration\obj\Debug\netstandard2.0\Snap.Hutao.SourceGeneration.AssemblyInfo.cs
-C:\Users\13063\source\repos\Snap.Hutao.SourceGeneration\src\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration\obj\Debug\netstandard2.0\Snap.Hutao.SourceGeneration.csproj.CoreCompileInputs.cache
-C:\Users\13063\source\repos\Snap.Hutao.SourceGeneration\src\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration\obj\Debug\netstandard2.0\Snap.Hutao.SourceGeneration.sourcelink.json
