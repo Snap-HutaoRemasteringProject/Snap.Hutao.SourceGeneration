@@ -27,7 +27,7 @@ internal sealed class SaltConstantGenerator : IIncrementalGenerator
         Response<SaltLatest>? saltInfo;
         try
         {
-            const string Url = "https://internal.snapgenshin.com/Archive/Salt/Latest";
+            const string Url = "https://internal.gentle.house/Archive/Salt/Latest";
             string body = new HttpClient().GetStringAsync(Url).GetAwaiter().GetResult();
             saltInfo = JsonSerializer.Deserialize<Response<SaltLatest>>(body);
             if (saltInfo is null)
@@ -80,9 +80,7 @@ internal sealed class SaltConstantGenerator : IIncrementalGenerator
     {
         public required string CNVersion { get; init; }
 
-
         public required string CNK2 { get; init; }
-
 
         public required string CNLK2 { get; init; }
 

@@ -28,8 +28,8 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
     {
         IncrementalValuesProvider<ConstructorGeneratorContext> provider = context.SyntaxProvider
             .ForAttributeWithMetadataName(
-                WellKnownMetadataNames.ConstructorGeneratedAttribute,
-                SyntaxNodeHelper.Is<ClassDeclarationSyntax>,
+                WellKnownMetadataNames.GeneratedConstructorAttribute,
+                SyntaxNodeHelper.Is<BaseMethodDeclarationSyntax>,
                 ConstructorGeneratorContext.Create);
 
         context.RegisterSourceOutput(provider, GenerateWrapper);
@@ -52,7 +52,7 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
         CompilationUnitSyntax syntax = context.Hierarchy.GetCompilationUnit(
         [
             GenerateConstructorDeclaration(context)
-                .WithParameterList(GenerateConstructorParameterList(context.Attribute))
+                .WithParameterList(GenerateConstructorParameterList(context))
                 .WithBody(Block(List(GenerateConstructorBodyStatements(context, production.CancellationToken)))),
 
             // Property declarations
@@ -76,53 +76,45 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
 
     private static ConstructorDeclarationSyntax GenerateConstructorDeclaration(ConstructorGeneratorContext context)
     {
-        SyntaxTokenList modifiers = context.Attribute.HasNamedArgument("Private", true)
-            ? PrivateTokenList
-            : PublicTokenList;
-
         ConstructorDeclarationSyntax constructorDeclaration = ConstructorDeclaration(Identifier(context.Hierarchy.Hierarchy[0].Name))
-            .WithModifiers(modifiers);
+            .WithModifiers(context.DeclaredAccessibility.ToSyntaxTokenList(PartialKeyword));
 
         if (context.Attribute.HasNamedArgument("CallBaseConstructor", true))
         {
+            string serviceProvider = context.Parameters.Single(static p => p.FullyQualifiedTypeMetadataName is WellKnownMetadataNames.IServiceProvider).Name;
+
             constructorDeclaration = constructorDeclaration.WithInitializer(
                 BaseConstructorInitializer(ArgumentList(SingletonSeparatedList(
-                    Argument(IdentifierName("serviceProvider"))))));
+                    Argument(IdentifierName(serviceProvider))))));
         }
 
         return constructorDeclaration;
     }
 
-    private static ParameterListSyntax GenerateConstructorParameterList(AttributeInfo attributeInfo)
+    private static ParameterListSyntax GenerateConstructorParameterList(ConstructorGeneratorContext context)
     {
-        ImmutableArray<ParameterSyntax>.Builder parameters = ImmutableArray.CreateBuilder<ParameterSyntax>();
-        parameters.Add(Parameter(TypeOfSystemIServiceProvider, Identifier("serviceProvider")));
-
-        if (attributeInfo.HasNamedArgument("ResolveHttpClient", true))
-        {
-            parameters.Add(Parameter(TypeOfSystemNetHttpHttpClient, Identifier("httpClient")));
-        }
-
-        return ParameterList(SeparatedList(parameters.ToImmutable()));
+        return ParameterList(SeparatedList(context.Parameters.Select(static p => p.GetSyntax())));
     }
 
     private static IEnumerable<StatementSyntax> GenerateConstructorBodyStatements(ConstructorGeneratorContext context, CancellationToken token)
     {
+        string serviceProvider = context.Parameters.Single(static p => p.FullyQualifiedTypeMetadataName is WellKnownMetadataNames.IServiceProvider).Name;
+
         // Call PreConstruct
         token.ThrowIfCancellationRequested();
         yield return ExpressionStatement(InvocationExpression(IdentifierName("PreConstruct"))
             .WithArgumentList(ArgumentList(SingletonSeparatedList(
-                Argument(IdentifierName("serviceProvider"))))));
+                Argument(IdentifierName(serviceProvider))))));
 
         // Assign fields
-        foreach (StatementSyntax? statementSyntax in GenerateConstructorBodyFieldAssignments(context, token))
+        foreach (StatementSyntax? statementSyntax in GenerateConstructorBodyFieldAssignments(serviceProvider, context, token))
         {
             token.ThrowIfCancellationRequested();
             yield return statementSyntax;
         }
 
         // Assign properties
-        foreach (StatementSyntax? statementSyntax in GenerateConstructorBodyPropertyAssignments(context, token))
+        foreach (StatementSyntax? statementSyntax in GenerateConstructorBodyPropertyAssignments(serviceProvider, context, token))
         {
             token.ThrowIfCancellationRequested();
             yield return statementSyntax;
@@ -143,7 +135,7 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
                         .WithTypeArgumentList(TypeArgumentList(SingletonSeparatedList(messageType)))))
                 .WithArgumentList(ArgumentList(SeparatedList(
                 [
-                    Argument(ServiceProviderGetRequiredService(IdentifierName("serviceProvider"), TypeOfCommunityToolkitMvvmMessagingIMessenger)),
+                    Argument(ServiceProviderGetRequiredService(IdentifierName(serviceProvider), TypeOfCommunityToolkitMvvmMessagingIMessenger)),
                     Argument(ThisExpression())
                 ]))));
         }
@@ -159,10 +151,10 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
         token.ThrowIfCancellationRequested();
         yield return ExpressionStatement(InvocationExpression(IdentifierName("PostConstruct"))
             .WithArgumentList(ArgumentList(SingletonSeparatedList(
-                Argument(IdentifierName("serviceProvider"))))));
+                Argument(IdentifierName(serviceProvider))))));
     }
 
-    private static IEnumerable<StatementSyntax> GenerateConstructorBodyFieldAssignments(ConstructorGeneratorContext context, CancellationToken token)
+    private static IEnumerable<StatementSyntax> GenerateConstructorBodyFieldAssignments(string serviceProviderName, ConstructorGeneratorContext context, CancellationToken token)
     {
         foreach ((bool shouldSkip, FieldInfo fieldInfo) in context.Fields)
         {
@@ -172,100 +164,63 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
                 continue;
             }
 
-            string fullyQualifiedFieldTypeName = fieldInfo.FullyQualifiedTypeNameWithNullabilityAnnotation;
-            TypeSyntax fieldType = ParseTypeName(fullyQualifiedFieldTypeName);
-            MemberAccessExpressionSyntax fieldAccess = SimpleMemberAccessExpression(ThisExpression(), IdentifierName(fieldInfo.MinimallyQualifiedName));
-            token.ThrowIfCancellationRequested();
-            switch (fullyQualifiedFieldTypeName)
-            {
-                // this.${fieldName} = serviceProvider;
-                case "global::System.IServiceProvider":
-                    yield return ExpressionStatement(SimpleAssignmentExpression(fieldAccess, IdentifierName("serviceProvider")));
-                    break;
-
-                // this.${fieldName} = httpClient;
-                // this.${fieldName} = serviceProvider.GetRequiredService<System.Net.Http.IHttpClientFactory>().CreateClient(nameof(${className}));
-                case "global::System.Net.Http.HttpClient":
-                    yield return ExpressionStatement(SimpleAssignmentExpression(
-                        fieldAccess,
-                        context.Attribute.HasNamedArgument("ResolveHttpClient", true)
-                            ? IdentifierName("httpClient")
-                            : InvocationExpression(
-                                    SimpleMemberAccessExpression(
-                                        ServiceProviderGetRequiredService(IdentifierName("serviceProvider"), TypeOfSystemNetHttpIHttpClientFactory),
-                                        IdentifierName("CreateClient")))
-                                .WithArgumentList(ArgumentList(SingletonSeparatedList(
-                                    Argument(NameOfExpression(IdentifierName(context.Hierarchy.Hierarchy[0].Name))))))));
-                    break;
-
-                // this.${fieldName} = serviceProvider.GetRequiredKeyedService<${fieldType}>(key);
-                // this.${fieldName} = serviceProvider.GetRequiredService<${fieldType}>();
-                default:
-                    if (fieldInfo.TryGetAttributeWithFullyQualifiedMetadataName(WellKnownMetadataNames.FromKeyedServicesAttribute, out AttributeInfo? fromKeyed))
-                    {
-                        yield return ExpressionStatement(SimpleAssignmentExpression(
-                            fieldAccess,
-                            ServiceProviderGetRequiredKeyedService(IdentifierName("serviceProvider"), fieldType, fromKeyed.ConstructorArguments.Single().GetSyntax())));
-                    }
-                    else
-                    {
-                        yield return ExpressionStatement(SimpleAssignmentExpression(
-                            fieldAccess,
-                            ServiceProviderGetRequiredService(IdentifierName("serviceProvider"), fieldType)));
-                    }
-                    break;
-            }
+            fieldInfo.TryGetAttributeWithFullyQualifiedMetadataName(WellKnownMetadataNames.FromKeyedServicesAttribute, out AttributeInfo? fromKeyed);
+            yield return GenerateConstructorBodyMemberAssignment(
+                fieldInfo.FullyQualifiedTypeNameWithNullabilityAnnotation,
+                fieldInfo.MinimallyQualifiedName,
+                serviceProviderName,
+                context,
+                fromKeyed,
+                token);
         }
     }
 
-    private static IEnumerable<StatementSyntax> GenerateConstructorBodyPropertyAssignments(ConstructorGeneratorContext context, CancellationToken token)
+    private static IEnumerable<StatementSyntax> GenerateConstructorBodyPropertyAssignments(string serviceProviderName, ConstructorGeneratorContext context, CancellationToken token)
     {
         foreach (PropertyInfo propertyInfo in context.Properties)
         {
-            string fullyQualifiedPropertyTypeName = propertyInfo.FullyQualifiedTypeNameWithNullabilityAnnotation;
-            TypeSyntax propertyType = ParseTypeName(fullyQualifiedPropertyTypeName);
-            MemberAccessExpressionSyntax propertyAccess = SimpleMemberAccessExpression(ThisExpression(), IdentifierName(propertyInfo.Name));
-            token.ThrowIfCancellationRequested();
-            switch (fullyQualifiedPropertyTypeName)
-            {
-                // this.${propertyName} = serviceProvider;
-                case "global::System.IServiceProvider":
-                    yield return ExpressionStatement(SimpleAssignmentExpression(propertyAccess, IdentifierName("serviceProvider")));
-                    break;
-
-                // this.${propertyName} = httpClient;
-                // this.${propertyName} = serviceProvider.GetRequiredService<System.Net.Http.IHttpClientFactory>().CreateClient(nameof(${className}));
-                case "global::System.Net.Http.HttpClient":
-                    yield return ExpressionStatement(SimpleAssignmentExpression(
-                        propertyAccess,
-                        context.Attribute.HasNamedArgument("ResolveHttpClient", true)
-                            ? IdentifierName("httpClient")
-                            : InvocationExpression(
-                                    SimpleMemberAccessExpression(
-                                        ServiceProviderGetRequiredService(IdentifierName("serviceProvider"), TypeOfSystemNetHttpIHttpClientFactory),
-                                        IdentifierName("CreateClient")))
-                                .WithArgumentList(ArgumentList(SingletonSeparatedList(
-                                    Argument(NameOfExpression(IdentifierName(context.Hierarchy.Hierarchy[0].Name))))))));
-                    break;
-
-                // this.${propertyName} = serviceProvider.GetRequiredKeyedService<${fieldType}>(key);
-                // this.${propertyName} = serviceProvider.GetRequiredService<${fieldType}>();
-                default:
-                    if (propertyInfo.TryGetAttributeWithFullyQualifiedMetadataName(WellKnownMetadataNames.FromKeyedServicesAttribute, out AttributeInfo? fromKeyed))
-                    {
-                        yield return ExpressionStatement(SimpleAssignmentExpression(
-                            propertyAccess,
-                            ServiceProviderGetRequiredKeyedService(IdentifierName("serviceProvider"), propertyType, fromKeyed.ConstructorArguments.Single().GetSyntax())));
-                    }
-                    else
-                    {
-                        yield return ExpressionStatement(SimpleAssignmentExpression(
-                            propertyAccess,
-                            ServiceProviderGetRequiredService(IdentifierName("serviceProvider"), propertyType)));
-                    }
-                    break;
-            }
+            propertyInfo.TryGetAttributeWithFullyQualifiedMetadataName(WellKnownMetadataNames.FromKeyedServicesAttribute, out AttributeInfo? fromKeyed);
+            yield return GenerateConstructorBodyMemberAssignment(
+                propertyInfo.FullyQualifiedTypeNameWithNullabilityAnnotation,
+                propertyInfo.Name,
+                serviceProviderName,
+                context,
+                fromKeyed,
+                token);
         }
+    }
+
+    private static StatementSyntax GenerateConstructorBodyMemberAssignment(
+        string fullyQualifiedMemberTypeName,
+        string memberName,
+        string serviceProviderName,
+        ConstructorGeneratorContext context,
+        AttributeInfo? fromKeyed,
+        CancellationToken token)
+    {
+        TypeSyntax propertyType = ParseTypeName(fullyQualifiedMemberTypeName);
+        MemberAccessExpressionSyntax memberAccess = SimpleMemberAccessExpression(ThisExpression(), IdentifierName(memberName));
+        token.ThrowIfCancellationRequested();
+        return fullyQualifiedMemberTypeName switch
+        {
+            "global::System.Net.Http.HttpClient" => context.Parameters.SingleOrDefault(static p => p.FullyQualifiedTypeMetadataName is WellKnownMetadataNames.HttpClient) is { } httpClient
+                ? ExpressionStatement(SimpleAssignmentExpression(memberAccess, IdentifierName(httpClient.Name)))
+                : ExpressionStatement(SimpleAssignmentExpression(memberAccess,
+                    InvocationExpression(SimpleMemberAccessExpression(
+                            ServiceProviderGetRequiredService(IdentifierName(serviceProviderName), TypeOfSystemNetHttpIHttpClientFactory),
+                            IdentifierName("CreateClient")))
+                        .WithArgumentList(ArgumentList(SingletonSeparatedList(
+                            Argument(NameOfExpression(IdentifierName(context.Hierarchy.Hierarchy[0].Name)))))))),
+            _ => context.Parameters.SingleOrDefault(p => p.FullyQualifiedTypeName == fullyQualifiedMemberTypeName) is { } parameter
+                ? ExpressionStatement(SimpleAssignmentExpression(memberAccess, IdentifierName(parameter.Name)))
+                : fromKeyed is not null
+                    ? ExpressionStatement(SimpleAssignmentExpression(
+                        memberAccess,
+                        ServiceProviderGetRequiredKeyedService(IdentifierName(serviceProviderName), propertyType, fromKeyed.ConstructorArguments.Single().GetSyntax())))
+                    : ExpressionStatement(SimpleAssignmentExpression(
+                        memberAccess,
+                        ServiceProviderGetRequiredService(IdentifierName(serviceProviderName), propertyType)))
+        };
     }
 
     private static IEnumerable<PropertyDeclarationSyntax> GeneratePropertyDeclarations(ConstructorGeneratorContext context, CancellationToken token)
@@ -289,15 +244,19 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
 
         public required HierarchyInfo Hierarchy { get; init; }
 
+        public required EquatableArray<ParameterInfo> Parameters { get; init; }
+
         public required EquatableArray<(bool ShouldSkip, FieldInfo Field)> Fields { get; init; }
 
         public required EquatableArray<PropertyInfo> Properties { get; init; }
 
         public required EquatableArray<TypeInfo> Interfaces { get; init; }
 
+        public required Accessibility DeclaredAccessibility { get; init; }
+
         public static ConstructorGeneratorContext Create(GeneratorAttributeSyntaxContext context, CancellationToken token)
         {
-            if (context.TargetSymbol is not INamedTypeSymbol typeSymbol)
+            if (context.TargetSymbol is not IMethodSymbol { ContainingType: { } typeSymbol } constructorSymbol)
             {
                 return default!;
             }
@@ -358,9 +317,11 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
             {
                 Attribute = AttributeInfo.Create(context.Attributes.Single()),
                 Hierarchy = HierarchyInfo.Create(typeSymbol),
+                Parameters = ImmutableArray.CreateRange(constructorSymbol.Parameters, ParameterInfo.Create),
                 Fields = fieldsBuilder.ToImmutable(),
                 Properties = propertiesBuilder.ToImmutable(),
                 Interfaces = interfacesBuilder.ToImmutable(),
+                DeclaredAccessibility = constructorSymbol.DeclaredAccessibility,
             };
         }
     }

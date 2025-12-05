@@ -53,25 +53,19 @@ internal sealed class AttributeGenerator : IIncrementalGenerator
                                 .WithModifiers(PublicTokenList)
                                 .WithAccessorList(GetAndSetAccessorList),
                         ])),
-                    ClassDeclaration(Identifier("ConstructorGeneratedAttribute"))
-                        .WithAttributeLists(SingletonList(SystemAttributeUsageList(AttributeTargetsClass, inherited: false)))
+                    ClassDeclaration(Identifier("GeneratedConstructorAttribute"))
+                        .WithAttributeLists(SingletonList(SystemAttributeUsageList(AttributeTargetsConstructor, inherited: false)))
                         .WithModifiers(InternalSealedTokenList)
                         .WithBaseList(SystemAttributeBaseList)
                         .WithMembers(List<MemberDeclarationSyntax>(
                         [
-                            ConstructorDeclaration(Identifier("ConstructorGeneratedAttribute"))
+                            ConstructorDeclaration(Identifier("GeneratedConstructorAttribute"))
                                 .WithModifiers(PublicTokenList)
                                 .WithEmptyBlockBody(),
                             PropertyDeclaration(BoolType, Identifier("CallBaseConstructor"))
                                 .WithModifiers(PublicTokenList)
                                 .WithAccessorList(GetAndSetAccessorList),
-                            PropertyDeclaration(BoolType, Identifier("ResolveHttpClient"))
-                                .WithModifiers(PublicTokenList)
-                                .WithAccessorList(GetAndSetAccessorList),
                             PropertyDeclaration(BoolType, Identifier("InitializeComponent"))
-                                .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-                                .WithAccessorList(GetAndSetAccessorList),
-                            PropertyDeclaration(BoolType, Identifier("Private"))
                                 .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
                                 .WithAccessorList(GetAndSetAccessorList)
                         ])),
